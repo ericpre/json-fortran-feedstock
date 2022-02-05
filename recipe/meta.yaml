@@ -18,7 +18,7 @@ requirements:
   build:
     - {{ compiler('fortran') }}
     - cmake
-    - ninja  # [unix]
+    - ninja
 
 test:
   requires:
