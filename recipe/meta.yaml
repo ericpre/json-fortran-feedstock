@@ -11,13 +11,6 @@ source:
 
 build:
   number: 1
-  skip: true  # [win]
-  script:
-    - set -ex
-    - cmake ${CMAKE_ARGS} -B_build -GNinja -DUSE_GNU_INSTALL_CONVENTION=true -DSKIP_DOC_GEN=true
-    - cmake --build _build
-    - cmake --build _build --target check  # [build_platform == target_platform]
-    - cmake --install _build
   run_exports:
     - {{ pin_subpackage(name, max_pin='x.x') }}
 
@@ -25,14 +18,14 @@ requirements:
   build:
     - {{ compiler('fortran') }}
     - cmake
-    - ninja
+    - ninja  # [unix]
 
 test:
   requires:
     - pkg-config
   commands:
     - pkg-config {{ name }} --exact-version {{ version }}  # [build_platform == target_platform]
-    - test -f $PREFIX/lib/libjsonfortran$SHLIB_EXT
+    - test -f $PREFIX/lib/libjsonfortran$SHLIB_EXT  # [unix]
 
 about:
   home: https://github.com/jacobwilliams/json-fortran
